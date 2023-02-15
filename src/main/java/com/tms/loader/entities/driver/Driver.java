@@ -4,8 +4,11 @@ import com.tms.loader.entities.User;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,4 +29,7 @@ public class Driver extends User {
 	private int salary;
 	@Column(name="food_cost")
 	private int foodCost;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "dstatus_id", nullable=true)
+	private DriverStatus status;
 }

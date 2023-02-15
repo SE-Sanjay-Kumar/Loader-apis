@@ -52,17 +52,8 @@ public class ClientService {
 		
 	}
 	public ClientDto updateClient(ClientDto dto, Long id) {
-		try {
-			int rows = clientRepo.setClientInfoById(dto.getUserName(),dto.getPassword() , dto.getCnic(), dto.getPhoneNumber(), dto.getCompanyName(), id);
-			if (rows==0) {
-				throw new ResourceNotFoundException("Client", "Id", id);
-			}
-		}catch(JpaSystemException exception) {
-			throw new CJpaSystemException(dto.getUserName());
-		}catch (Exception e ) {
-			throw new ExceptionEnd();
-		}
-		
+		getClientWithId(id);
+		clientRepo.setClientInfoById(dto.getUserName(),dto.getPassword() , dto.getCnic(), dto.getPhoneNumber(), dto.getCompanyName(), id);
 		return mapper.map(clientRepo.findById(id), ClientDto.class);
 		
 	}

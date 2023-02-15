@@ -1,4 +1,4 @@
-package com.tms.loader.entities;
+	package com.tms.loader.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;

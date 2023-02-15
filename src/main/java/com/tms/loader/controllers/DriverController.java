@@ -35,6 +35,11 @@ public class DriverController {
 	ResponseEntity<DriverDto> getDriverById(@PathVariable Long id){
 		DriverDto driverDto = this.service.getClientWithId(id);
 		return new ResponseEntity<DriverDto>(driverDto, HttpStatus.OK);
-		
+	}
+	@GetMapping("/status/{statusId}")
+	ResponseEntity<List<DriverDto>> getDriverByStatusId(@PathVariable Long statusId){
+		System.out.println("Hello inside status id join");
+		List<DriverDto> list = this.service.getDriversWithStatusId(statusId);
+		return new ResponseEntity<List<DriverDto>>(list, HttpStatus.OK);
 	}
 }

@@ -41,7 +41,7 @@ public class DriverWellBeingService {
 		return mapper.map(driverWellBeing, DriverWellBeingDto.class);
 	}
 	public List<DriverWellBeingResponseDto> getDriverHealthDetails() {
-		List<Object[]> healthDetails = repo.findDriverHealth();
+		List<Object[]> healthDetails = repo.findByDriverIdJoin();
 		List<DriverWellBeingResponseDto> driverWellBeingdto = healthDetails.stream()
 		                                        .map( dto ->{
 		                                        	System.out.println("dto contains "+dto[0]);
@@ -54,6 +54,7 @@ public class DriverWellBeingService {
 		                                        .collect(Collectors.toList());
 		return driverWellBeingdto;
 	}
+//	 Performed join operation based on driverId
 	public DriverWellBeingResponseDto getDriverHealthWithId(Long id){
 		Object[] dto = null;
 		try {

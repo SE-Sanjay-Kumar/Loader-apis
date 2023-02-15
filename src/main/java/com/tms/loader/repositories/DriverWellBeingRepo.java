@@ -18,7 +18,7 @@ public interface DriverWellBeingRepo extends JpaRepository<DriverWellbeing, Long
 	@Query("SELECT d,dw FROM Driver d JOIN DriverWellbeing dw on d.id = dw.driver WHERE d.id = :driverId")
     public Object[] findByDriverIdJoin(@Param("driverId") Long driverId);
 	@Query("SELECT d,dw FROM Driver d JOIN DriverWellbeing dw on d.id = dw.driver")
-	public List<Object[]> findDriverHealth();
+	public List<Object[]> findByDriverIdJoin();
 	@Transactional
 	@Modifying
 	@Query("update DriverWellbeing wb set wb.restingHours = ?1, wb.bodyTemperature = ?2, wb.hasDisease = ?3, wb.disease = ?4 where wb.driver.id = ?5")
