@@ -1,4 +1,4 @@
-package com.tms.loader.services;
+package com.tms.loader.services.driver;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +13,7 @@ import com.tms.loader.exceptions.CJpaSystemException;
 import com.tms.loader.exceptions.ExceptionEnd;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.StatusDto;
-import com.tms.loader.repositories.DriverStatusRepo;
+import com.tms.loader.repositories.driver.DriverStatusRepo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

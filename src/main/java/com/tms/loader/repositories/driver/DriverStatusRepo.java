@@ -1,4 +1,4 @@
-package com.tms.loader.repositories;
+package com.tms.loader.repositories.driver;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

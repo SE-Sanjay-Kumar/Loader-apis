@@ -1,4 +1,4 @@
-package com.tms.loader.services;
+package com.tms.loader.services.driver;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,8 +15,8 @@ import com.tms.loader.exceptions.ExceptionEnd;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.driver.DriverWellBeingDto;
 import com.tms.loader.payloads.driver.DriverWellBeingResponseDto;
-import com.tms.loader.repositories.DriverRepo;
-import com.tms.loader.repositories.DriverWellBeingRepo;
+import com.tms.loader.repositories.driver.DriverRepo;
+import com.tms.loader.repositories.driver.DriverWellBeingRepo;
 
 @Service
 public class DriverWellBeingService {

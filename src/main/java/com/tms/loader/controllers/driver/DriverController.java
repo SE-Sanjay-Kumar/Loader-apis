@@ -1,4 +1,4 @@
-package com.tms.loader.controllers;
+package com.tms.loader.controllers.driver;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.driver.DriverDto;
-import com.tms.loader.services.DriverService;
+import com.tms.loader.services.driver.DriverService;
 
 @RestController
 @RequestMapping("/api/driver")

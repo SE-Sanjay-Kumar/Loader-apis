@@ -14,6 +14,7 @@ import com.tms.loader.exceptions.ExceptionEnd;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.ClientDto;
 import com.tms.loader.repositories.ClientRepo;
+import com.tms.loader.utils.CRUDClass;
 
 @Service
 public class ClientService {
@@ -21,15 +22,10 @@ public class ClientService {
 	private ClientRepo clientRepo;
 	@Autowired
 	private ModelMapper mapper;
+	@Autowired
+	private CRUDClass crud;
 	public ClientDto createClient(ClientDto dto) {
-		Client clientEntity = this.mapper.map(dto, Client.class);
-		try {
-			clientRepo.save(clientEntity);
-		}catch (JpaSystemException e) {
-			throw new CJpaSystemException(dto.getUserName());
-		}catch(Exception e) {
-			throw new ExceptionEnd();
-		}
+		Client clientEntity = crud.saveDTOToRepository(dto, clientRepo, Client.class);
 		return this.mapper.map(clientEntity, ClientDto.class);
 	}
 	
