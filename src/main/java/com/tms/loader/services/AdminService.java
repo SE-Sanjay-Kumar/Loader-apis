@@ -1,10 +1,10 @@
 package com.tms.loader.services;
 
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
-import com.tms.loader.exceptions.CJpaSystemException;
+import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.ExceptionEnd;
 
 import org.springframework.stereotype.Service;
@@ -23,8 +23,8 @@ public class AdminService {
 		Admin admin = mapper.map(adminDto, Admin.class);
 		try {
 			adminRepo.save(admin);
-		}catch(JpaSystemException jpaexception) {
-			throw new CJpaSystemException(adminDto.getUserName());
+		}catch (ConstraintViolationException e) {
+			throw new ConstraintViolationExceptionHandler(adminDto.getUserName());
 		}catch(Exception e) {
 			throw new ExceptionEnd();
 		}

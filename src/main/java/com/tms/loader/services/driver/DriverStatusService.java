@@ -3,13 +3,14 @@ package com.tms.loader.services.driver;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.driver.DriverStatus;
-import com.tms.loader.exceptions.CJpaSystemException;
+import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.ExceptionEnd;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.StatusDto;
@@ -32,8 +33,8 @@ public class DriverStatusService {
 		DriverStatus statusEntity =  mapper.map(dto, DriverStatus.class);
 		try {
 			repo.save(statusEntity);
-		}catch (JpaSystemException e) {
-			throw new CJpaSystemException(dto.getStatus());
+		}catch (ConstraintViolationException e) {
+			throw new ConstraintViolationExceptionHandler(dto.getStatus());
 		}catch(Exception e) {
 			throw new ExceptionEnd();
 		}
@@ -61,7 +62,7 @@ public class DriverStatusService {
 			System.out.println("status is "+dto.getStatus());
 			repo.updateStatusById(dto.getStatus(), id);
 		}catch(JpaSystemException e){
-			throw new CJpaSystemException(dto.getStatus());
+			throw new ConstraintViolationExceptionHandler(dto.getStatus());
 		}catch(Exception e) {
 			throw new ExceptionEnd();
 		}

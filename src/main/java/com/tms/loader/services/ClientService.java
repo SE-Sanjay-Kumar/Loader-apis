@@ -3,18 +3,17 @@ package com.tms.loader.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.Client;
-import com.tms.loader.exceptions.CJpaSystemException;
+import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.ExceptionEnd;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.ClientDto;
 import com.tms.loader.repositories.ClientRepo;
-import com.tms.loader.utils.CRUDClass;
 
 @Service
 public class ClientService {
@@ -22,10 +21,15 @@ public class ClientService {
 	private ClientRepo clientRepo;
 	@Autowired
 	private ModelMapper mapper;
-	@Autowired
-	private CRUDClass crud;
 	public ClientDto createClient(ClientDto dto) {
-		Client clientEntity = crud.saveDTOToRepository(dto, clientRepo, Client.class);
+		Client clientEntity = mapper.map(dto, Client.class);
+		try {
+			clientRepo.save(clientEntity);
+		}catch (ConstraintViolationException e) {
+			throw new ConstraintViolationExceptionHandler(dto.getUserName());
+		}catch(Exception e) {
+			throw new ExceptionEnd();
+		}
 		return this.mapper.map(clientEntity, ClientDto.class);
 	}
 	

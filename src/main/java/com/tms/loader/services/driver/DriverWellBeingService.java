@@ -3,14 +3,14 @@ package com.tms.loader.services.driver;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverWellbeing;
-import com.tms.loader.exceptions.CJpaSystemException;
+import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.ExceptionEnd;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.driver.DriverWellBeingDto;
@@ -33,8 +33,8 @@ public class DriverWellBeingService {
 		try {
 			repo.save(driverWellBeing);
 
-		}catch (JpaSystemException e) {
-			throw new CJpaSystemException(id.toString());
+		}catch (ConstraintViolationException e) {
+			throw new ConstraintViolationExceptionHandler(id.toString());
 		}catch(Exception e) {
 			throw new ExceptionEnd();
 		}

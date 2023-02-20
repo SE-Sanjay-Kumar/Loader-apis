@@ -15,8 +15,8 @@ public class GeneralExceptionHandler {
 		apiResp.setSuccess(false);
 		return new ResponseEntity<ApiResponse>(apiResp, HttpStatus.NOT_FOUND);
 	}
-	@ExceptionHandler(CJpaSystemException.class)
-	public ResponseEntity<ApiResponse> jpaSystemExceptionHandler(CJpaSystemException exception){
+	@ExceptionHandler(ConstraintViolationExceptionHandler.class)
+	public ResponseEntity<ApiResponse> jpaSystemExceptionHandler(ConstraintViolationExceptionHandler exception){
 		apiResp.setMessage(exception.getMessage());
 		apiResp.setSuccess(false);
 		return new ResponseEntity<ApiResponse>(apiResp, HttpStatus.BAD_REQUEST);
