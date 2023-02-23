@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.Client;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
-import com.tms.loader.exceptions.ExceptionEnd;
+import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
+import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.ClientDto;
 import com.tms.loader.repositories.ClientRepo;
@@ -25,10 +27,12 @@ public class ClientService {
 		Client clientEntity = mapper.map(dto, Client.class);
 		try {
 			clientRepo.save(clientEntity);
-		}catch (ConstraintViolationException e) {
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityExceptionHandler();
+		} catch (ConstraintViolationException e) {
 			throw new ConstraintViolationExceptionHandler(dto.getUserName());
 		}catch(Exception e) {
-			throw new ExceptionEnd();
+			throw new AllExceptionHandler();
 		}
 		return this.mapper.map(clientEntity, ClientDto.class);
 	}

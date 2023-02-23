@@ -10,5 +10,5 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleTypeRespDto extends VehicleTypeDto {
-	private Long typeId;
+	private Integer typeId;
 }

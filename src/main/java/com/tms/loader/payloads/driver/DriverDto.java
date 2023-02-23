@@ -16,5 +16,5 @@ public class DriverDto extends UserDto{
 	private int yearsOfExperience;
 	private int salary;
 	private int foodCost;
-	private Long statusId;
+	private Integer statusId;
 }

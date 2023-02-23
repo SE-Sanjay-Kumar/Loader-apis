@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverStatus;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
-import com.tms.loader.exceptions.ExceptionEnd;
+import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
+import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.repositories.driver.DriverRepo;
@@ -26,7 +28,7 @@ public class DriverService {
 	@Autowired
 	ModelMapper mapper;
 	public DriverDto addDriver(DriverDto dto) {
-		Long statusId = dto.getStatusId();
+		Integer statusId = dto.getStatusId();
 		DriverStatus driverStatus = statusRepo.findById(statusId).orElseThrow(() -> new ResourceNotFoundException("Availability Status", "id", statusId));
 		Driver driver = mapper.map(dto, Driver.class);
 		driver.setStatus(driverStatus);
@@ -34,8 +36,10 @@ public class DriverService {
 			repo.save(driver);
 		}catch (ConstraintViolationException e) {
 			throw new ConstraintViolationExceptionHandler(dto.getUserName());
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityExceptionHandler();
 		}catch(Exception e) {
-			throw new ExceptionEnd();
+			throw new AllExceptionHandler();
 		}
 		return mapper.map(driver, DriverDto.class);
 	}

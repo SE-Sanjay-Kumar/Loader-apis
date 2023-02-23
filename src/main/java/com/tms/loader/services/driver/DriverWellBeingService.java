@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverWellbeing;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
-import com.tms.loader.exceptions.ExceptionEnd;
+import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
+import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.driver.DriverWellBeingDto;
 import com.tms.loader.payloads.driver.DriverWellBeingResponseDto;
@@ -33,10 +35,12 @@ public class DriverWellBeingService {
 		try {
 			repo.save(driverWellBeing);
 
-		}catch (ConstraintViolationException e) {
-			throw new ConstraintViolationExceptionHandler(id.toString());
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityExceptionHandler();
+		} catch (ConstraintViolationException e) {
+			throw new ConstraintViolationExceptionHandler(dto.getHealthId().toString());
 		}catch(Exception e) {
-			throw new ExceptionEnd();
+			throw new AllExceptionHandler();
 		}
 		return mapper.map(driverWellBeing, DriverWellBeingDto.class);
 	}
@@ -63,7 +67,7 @@ public class DriverWellBeingService {
 					throw new ResourceNotFoundException("Health Status", "id", id);
 			}
 		}catch(Exception e) {
-			throw new ExceptionEnd(); 
+			throw new AllExceptionHandler(); 
 		}
 		Driver driver = (Driver) ((Object[]) dto[0])[0];
 		DriverWellbeing wellBeing = (DriverWellbeing) ((Object[]) dto[0])[1];

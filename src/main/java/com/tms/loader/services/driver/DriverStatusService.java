@@ -6,12 +6,14 @@ import java.util.stream.Collectors;
 import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.entities.driver.DriverStatus;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
-import com.tms.loader.exceptions.ExceptionEnd;
+import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
+import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.StatusDto;
 import com.tms.loader.repositories.driver.DriverStatusRepo;
@@ -31,19 +33,25 @@ public class DriverStatusService {
 	private ModelMapper mapper;
 	public StatusDto addStatus(StatusDto dto) {
 		DriverStatus statusEntity =  mapper.map(dto, DriverStatus.class);
+		Integer id = dto.getStatusId();
+		if (repo.existsById(id)) {
+			throw new DataIntegrityExceptionHandler();
+		}
 		try {
 			repo.save(statusEntity);
+			System.out.println("Saved");
 		}catch (ConstraintViolationException e) {
 			throw new ConstraintViolationExceptionHandler(dto.getStatus());
+		}catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityExceptionHandler();
 		}catch(Exception e) {
-			throw new ExceptionEnd();
+			System.out.println("Here");
+			throw new AllExceptionHandler();
 		}
-		System.out.println(statusEntity.getStatus());
 		StatusDto respDto = mapper.map(statusEntity, StatusDto.class);
-		System.out.println(respDto.getStatus());
 		return respDto;
 	}
-	public StatusDto getStatus(Long id) {
+	public StatusDto getStatus(Integer id) {
 		DriverStatus statusEntity = repo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Status", "Id", id));
 		return mapper.map(statusEntity, StatusDto.class);
 	}
@@ -55,7 +63,7 @@ public class DriverStatusService {
 		return driverStatusDtoList;
 	}
 	@Transactional
-	public StatusDto updateStatus(StatusDto dto, Long id) {
+	public StatusDto updateStatus(StatusDto dto, Integer id) {
 		repo.findById(id)
 		.orElseThrow(()-> new ResourceNotFoundException("Driver Availability Status", "Id", id));
 		try {
@@ -64,7 +72,7 @@ public class DriverStatusService {
 		}catch(JpaSystemException e){
 			throw new ConstraintViolationExceptionHandler(dto.getStatus());
 		}catch(Exception e) {
-			throw new ExceptionEnd();
+			throw new AllExceptionHandler();
 		}
 		
 		DriverStatus status = repo.findById(id).orElseThrow(()-> new ResourceNotFoundException("Driver Availability Status", "Id", id));;

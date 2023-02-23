@@ -12,5 +12,6 @@ public class FreightDto {
 	private String plateNo;
 	private float maintenanceCost;
 	private float fuelCost;
-	private Long typeId;
+	private Integer typeId;
+	private Integer statusId;
 }

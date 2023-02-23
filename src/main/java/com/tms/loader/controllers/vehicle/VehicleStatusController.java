@@ -1,27 +1,26 @@
-package com.tms.loader.controllers.driver;
+package com.tms.loader.controllers.vehicle;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.StatusDto;
-import com.tms.loader.services.driver.DriverStatusService;
+import com.tms.loader.services.vehicle.VehicleStatusService;
 
-
-@RestController
-@RequestMapping("/api/driver-statuses")
-public class DriverStatusController {
+@Controller
+@RequestMapping("/api/vehicle-statuses")
+public class VehicleStatusController {
 	@Autowired
-	private DriverStatusService service;
+	private VehicleStatusService service;
 	@PostMapping("/")
 	public ResponseEntity<StatusDto> addStatus(@RequestBody StatusDto dto) {
 		return new ResponseEntity<StatusDto>(service.addStatus(dto), HttpStatus.CREATED);
@@ -38,5 +37,4 @@ public class DriverStatusController {
 	public ResponseEntity<StatusDto> updateStatus(@RequestBody StatusDto dto, @PathVariable Integer id) {
 		return new ResponseEntity<StatusDto>(service.updateStatus(dto, id), HttpStatus.OK);
 	}
-	
 }
