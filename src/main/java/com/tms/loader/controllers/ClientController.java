@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+
 import com.tms.loader.payloads.ClientDto;
 import com.tms.loader.services.ClientService;
 
@@ -24,7 +26,7 @@ public class ClientController {
 	@PostMapping("/")
 	ResponseEntity<ClientDto> createClient(@RequestBody ClientDto dto){
 		ClientDto respdto = this.clientService.createClient(dto);
-		System.out.println("This is new dto "+respdto);
+		System.out.println("This is new dto "+dto);
 		return new ResponseEntity<ClientDto>(respdto, HttpStatus.CREATED);
 	}
 	@GetMapping("/")

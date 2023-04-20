@@ -11,8 +11,10 @@ public class LoaderApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LoaderApplication.class, args);
 	}
+	
 	@Bean
 	ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+	
 }

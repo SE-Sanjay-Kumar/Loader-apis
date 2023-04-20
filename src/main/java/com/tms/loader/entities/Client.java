@@ -19,6 +19,7 @@ import lombok.Setter;
 	@AttributeOverride(name="userName", column = @Column(name="client_name"))
 })
 public class Client extends User {
+	
 	@Column(name="company_name")
 	private String companyName;
 }

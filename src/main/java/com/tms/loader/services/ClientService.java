@@ -26,6 +26,7 @@ public class ClientService {
 	public ClientDto createClient(ClientDto dto) {
 		Client clientEntity = mapper.map(dto, Client.class);
 		try {
+			
 			clientRepo.save(clientEntity);
 		}catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityExceptionHandler();

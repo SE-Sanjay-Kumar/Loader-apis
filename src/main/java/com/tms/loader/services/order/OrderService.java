@@ -42,7 +42,8 @@ public class OrderService {
 	@Autowired
 	private ModelMapper mapper;
 	
-	// add order
+	// add order 
+	// image adding
 	public OrderDto addOrder(OrderDto orderDto) {
 	    Order order = mapper.map(orderDto, Order.class);
 	    // Set the order status based on the provided status ID
