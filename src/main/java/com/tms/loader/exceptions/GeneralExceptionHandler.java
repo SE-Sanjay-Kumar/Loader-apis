@@ -34,7 +34,6 @@ public class GeneralExceptionHandler {
 		apiResp.setMessage(exception.getMessage());
 		apiResp.setSuccess(false);
 		return new ResponseEntity<ApiResponse>(apiResp, HttpStatus.BAD_REQUEST);
-		
 	} 
 	@ExceptionHandler(AllExceptionHandler.class)
 	public ResponseEntity<ApiResponse> ExceptionHandler(AllExceptionHandler exception){

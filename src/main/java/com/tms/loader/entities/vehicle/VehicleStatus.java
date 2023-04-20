@@ -12,7 +12,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="vehicle_status")
-@AttributeOverride(name="id", column=@Column(name="vstatus_id"))
+@AttributeOverride(name="statusId", column=@Column(name="vstatus_id"))
 @AllArgsConstructor
 @Setter
 @Getter

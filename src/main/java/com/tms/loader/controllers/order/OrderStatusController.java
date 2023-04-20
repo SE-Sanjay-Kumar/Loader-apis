@@ -1,4 +1,4 @@
-package com.tms.loader.controllers.driver;
+package com.tms.loader.controllers.order;
 
 import java.util.List;
 
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.StatusDto;
-import com.tms.loader.services.driver.DriverStatusService;
-
+import com.tms.loader.services.order.OrderStatusService;
 
 @RestController
-@RequestMapping("/api/driver-statuses")
-public class DriverStatusController {
+@RequestMapping("/api/order-statuses")
+
+public class OrderStatusController {
 	@Autowired
-	private DriverStatusService service;
+	private OrderStatusService service;
 	@PostMapping("/")
 	public ResponseEntity<StatusDto> addStatus(@RequestBody StatusDto dto) {
 		return new ResponseEntity<StatusDto>(service.addStatus(dto), HttpStatus.CREATED);

@@ -29,6 +29,7 @@ public class VehicleTypeService {
 		try {
 			repo.save(vtype);
 		}catch(DataIntegrityViolationException e) {
+			
 			throw new DataIntegrityExceptionHandler();
 		} catch (ConstraintViolationException e) {
 			throw new ConstraintViolationExceptionHandler(dto.getTypeName());
