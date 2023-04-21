@@ -39,6 +39,7 @@ public class AdminService {
 		return mapper.map(admin, AdminDto.class);
 	}
 	public AdminDto getAdmin() {
+		System.out.println("getter admin");
 		return mapper.map(adminRepo.getAdmin(), AdminDto.class);
 	}
 	

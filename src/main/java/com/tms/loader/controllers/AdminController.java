@@ -19,6 +19,7 @@ public class AdminController {
 	private AdminService adminService;
 	@PostMapping("/")
 	ResponseEntity<AdminDto> createAdmin(@RequestBody AdminDto dto){
+		System.out.print("ready to create");
 		AdminDto respdto = this.adminService.createAdmin(dto);
 		return new ResponseEntity<AdminDto>(respdto, HttpStatus.CREATED);
 	}

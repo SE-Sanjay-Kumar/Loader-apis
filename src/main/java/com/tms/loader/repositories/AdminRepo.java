@@ -15,6 +15,6 @@ public interface AdminRepo extends JpaRepository<Admin, Long> {
 	void singletonQueryTrigger();
 	
 	@Query(value = "SELECT *\r\n"
-			+ "FROM Admin\r\n" , nativeQuery = true)
+			+ "FROM admin LIMIT 1\r\n" , nativeQuery = true)
 	Admin getAdmin();
 }
