@@ -18,11 +18,12 @@ public class LoaderApplication {
 	ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+	@Bean
 	public WebMvcConfigurer configure() {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/*").allowedOriginPatterns("http://localhost:3000");
+				registry.addMapping("/*").allowedOriginPatterns("http://localhost:3000' ");
 			}
 		};
 	}
