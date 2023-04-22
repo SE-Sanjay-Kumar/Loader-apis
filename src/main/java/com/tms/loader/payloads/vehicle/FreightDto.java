@@ -15,6 +15,8 @@ public class FreightDto {
 	private String plateNo;
 	private float maintenanceCost;
 	private float fuelCost;
+	private Long maxWeightCarry;
+	private float mileage;
 	private VehicleType type;
 	private VehicleStatus status;
 }
