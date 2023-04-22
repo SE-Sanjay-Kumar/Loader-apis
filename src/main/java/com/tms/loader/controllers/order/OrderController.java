@@ -30,7 +30,10 @@ public class OrderController {
     public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto) {
         return new ResponseEntity<OrderDto>(orderService.addOrder(orderDto), HttpStatus.CREATED); 
     }
-
+    @GetMapping("/")
+    public ResponseEntity<List<OrderDto>> getOrders() {
+        return new ResponseEntity<List<OrderDto>>(orderService.getAllOrders(), HttpStatus.CREATED); 
+    }
     // Update an order by ID
     @PutMapping("/{id}")
     public ResponseEntity<OrderDto> updateOrder(@RequestBody UpdateOrderDto orderDto, @PathVariable Long id) {

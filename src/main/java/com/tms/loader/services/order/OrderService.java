@@ -128,7 +128,18 @@ Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFou
 	    }
 	    return false;
 	}
-
+	public List<OrderDto> getAllOrders(){
+		List<Order> orders = orderRepo.findAll();
+		return orders.stream()
+                .map(order -> {
+                	OrderDto backSavedOrder = mapper.map(order, OrderDto.class);
+            	    backSavedOrder.setPickUp(order.getOrderLocation().getPickUp());
+            	    backSavedOrder.setDropOff(order.getOrderLocation().getDropOff());
+            	    return backSavedOrder;
+            	   
+                })
+                .collect(Collectors.toList());
+	}
 	// get order
 	public OrderDto getOrderByOrderId(Long id) {
 		// Find the order by its ID
