@@ -1,6 +1,9 @@
 package com.tms.loader.payloads.vehicle;
 
 
+import com.tms.loader.entities.vehicle.VehicleStatus;
+import com.tms.loader.entities.vehicle.VehicleType;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +15,6 @@ public class FreightDto {
 	private String plateNo;
 	private float maintenanceCost;
 	private float fuelCost;
-	private Integer typeId;
-	private Integer statusId;
+	private VehicleType type;
+	private VehicleStatus status;
 }

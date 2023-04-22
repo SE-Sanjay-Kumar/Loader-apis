@@ -30,12 +30,11 @@ public class FreightService {
 	
 	public FreightDto addFreight(FreightDto dto) {
 		ModelMapperConfig.mapBasedOnFreightId(mapper);
-		Integer typeId =  dto.getTypeId();
-		if (typeId == null ) {
+		if (dto.getType() == null ) {
 			throw new ConstraintViolationExceptionHandler(dto.getName());
 		}
 		Freight freightEntity =  mapper.map(dto, Freight.class);
-		VehicleType vehicleType = vtypeRepo.findById(typeId).orElseThrow(()-> new ResourceNotFoundException("VehicleType", "id", typeId));
+		VehicleType vehicleType = vtypeRepo.findById(dto.getType().getTypeId()).orElseThrow(()-> new ResourceNotFoundException("VehicleType", "id", dto.getType().getTypeId()));
 		freightEntity.setVtype(vehicleType);
 		
 		try {

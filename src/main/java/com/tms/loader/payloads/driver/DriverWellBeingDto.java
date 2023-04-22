@@ -1,5 +1,7 @@
 package com.tms.loader.payloads.driver;
 
+import com.tms.loader.entities.driver.Driver;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +17,5 @@ public class DriverWellBeingDto {
 	private boolean hasDisease;
 	private String disease;
 	private int restingHours;
+	private Driver driver;
 }

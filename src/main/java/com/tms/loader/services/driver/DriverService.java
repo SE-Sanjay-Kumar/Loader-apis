@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.tms.loader.entities.Status;
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverStatus;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
@@ -28,8 +29,8 @@ public class DriverService {
 	@Autowired
 	ModelMapper mapper;
 	public DriverDto addDriver(DriverDto dto) {
-		Integer statusId = dto.getStatusId();
-		DriverStatus driverStatus = statusRepo.findById(statusId).orElseThrow(() -> new ResourceNotFoundException("Availability Status", "id", statusId));
+		Status statusId = dto.getStatus();
+		DriverStatus driverStatus = statusRepo.findById(statusId.getStatusId()).orElseThrow(() -> new ResourceNotFoundException("Availability Status", "id", statusId.getStatusId()));
 		Driver driver = mapper.map(dto, Driver.class);
 		driver.setStatus(driverStatus);
 		try {

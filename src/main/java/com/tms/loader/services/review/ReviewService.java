@@ -45,7 +45,7 @@ public class ReviewService {
         	clientReview = clientReviewRepo.save(clientReview);
         	return mapper.map(clientReview, ClientReviewDto.class);
 		}catch (ConstraintViolationException e) {
-			throw new ConstraintViolationExceptionHandler(clientReviewDto.getOrderId().toString());
+			throw new ConstraintViolationExceptionHandler(clientReviewDto.getOrder().getOrderId().toString());
 		}catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityExceptionHandler();
 		}catch(Exception e) {
@@ -65,7 +65,7 @@ public class ReviewService {
             
         	return mapper.map(driverReview, DriverReviewDto.class);
 		}catch (ConstraintViolationException e) {
-			throw new ConstraintViolationExceptionHandler(driverReviewDto.getOrderId().toString());
+			throw new ConstraintViolationExceptionHandler(driverReviewDto.getOrder().getOrderId().toString());
 		}catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityExceptionHandler();
 		}catch(Exception e) {

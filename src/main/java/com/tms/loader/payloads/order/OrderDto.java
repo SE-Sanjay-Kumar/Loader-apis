@@ -2,6 +2,11 @@ package com.tms.loader.payloads.order;
 
 import java.time.LocalDateTime;
 
+import com.tms.loader.entities.Client;
+import com.tms.loader.entities.Status;
+import com.tms.loader.entities.driver.Driver;
+import com.tms.loader.entities.payment.Payment;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +21,11 @@ public class OrderDto {
 	private float totalWeight;
 	private float totalSize;
 	private boolean fragility;
-	private Integer statusId;
+	private Status status;
 	private float price;
-	private Long clientId;
-	private Long driverId;
-	private Integer paymentId;
+	private Client client;
+	private Driver driver;
+	private Payment payment;
 	private String pickUp;
 	private String dropOff;
 	private LocalDateTime schedule;

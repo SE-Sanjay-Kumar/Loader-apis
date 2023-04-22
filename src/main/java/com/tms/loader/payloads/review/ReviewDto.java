@@ -2,6 +2,8 @@ package com.tms.loader.payloads.review;
 
 import java.time.LocalDateTime;
 
+import com.tms.loader.entities.order.Order;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,5 +17,5 @@ public class ReviewDto {
 	protected Integer rating;
 	protected String comment;
 	protected LocalDateTime reviewDate;
-	protected Long orderId;
+	protected Order order;
 }

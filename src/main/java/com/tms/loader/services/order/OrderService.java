@@ -47,29 +47,29 @@ public class OrderService {
 	public OrderDto addOrder(OrderDto orderDto) {
 	    Order order = mapper.map(orderDto, Order.class);
 	    // Set the order status based on the provided status ID
-	    if (orderDto.getStatusId()!=null) {
-	    	OrderStatus status = orderStatusRepo.findById(orderDto.getStatusId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Order Status", "id", orderDto.getStatusId()));
+	    if (orderDto.getStatus()!=null) {
+	    	OrderStatus status = orderStatusRepo.findById(orderDto.getStatus().getStatusId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Order Status", "id", orderDto.getStatus().getStatusId()));
 order.setStatus(status);
 	    }
 	    
 	    
 	    // Set the client for the order
-	    Client client = clientRepo.findById(orderDto.getClientId())
-	                               .orElseThrow(() -> new ResourceNotFoundException("Client", "id", orderDto.getClientId()));
+	    Client client = clientRepo.findById(orderDto.getClient().getId())
+	                               .orElseThrow(() -> new ResourceNotFoundException("Client", "id", orderDto.getClient().getId()));
 	    order.setClient(client);
 	    
 	    // Set the driver for the order (if one is provided)
-	    if (orderDto.getDriverId() != null) {
-	        Driver driver = driverRepo.findById(orderDto.getDriverId())
-	                                   .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", orderDto.getDriverId()));
+	    if (orderDto.getDriver() != null) {
+	        Driver driver = driverRepo.findById(orderDto.getDriver().getId())
+	                                   .orElseThrow(() -> new ResourceNotFoundException("Driver", "id", orderDto.getDriver().getId()));
 	        order.setDriver(driver);
 	    }
 	    
 	    // Set the payment for the order (if one is provided)
-	    if (orderDto.getPaymentId() != null) {
-	        Payment payment = paymentRepo.findById(orderDto.getPaymentId())
-	                                      .orElseThrow(() -> new ResourceNotFoundException("Payment", "id", orderDto.getPaymentId()));
+	    if (orderDto.getPayment()!= null) {
+	        Payment payment = paymentRepo.findById(orderDto.getPayment().getPaymentId())
+	                                      .orElseThrow(() -> new ResourceNotFoundException("Payment", "id", orderDto.getPayment().getPaymentId()));
 	        order.setPayment(payment);
 	    }
 	    
@@ -96,14 +96,15 @@ order.setStatus(status);
 	        Order order = optionalOrder.get();
 	        mapper.map(orderDto, order);
 	        try {
+	        	
 //	        	OrderStatus status = orderStatusRepo.findById(orderDto.getStatusId())
 //	        	        .orElseThrow(() -> new ResourceNotFoundException("order status", "id", orderDto.getStatusId()));
-
 	        	
-	        	OrderStatus status = orderStatusRepo.findById(orderDto.getStatusId())
-	        		    .orElseThrow(() -> new ResourceNotFoundException("order status", "id", orderDto.getStatusId()));
-	        	Driver driver = driverRepo.findById(orderDto.getDriverId())
-	        			.orElseThrow(()-> new ResourceNotFoundException("driver", "id", orderDto.getDriverId()));
+	        	
+	        	OrderStatus status = orderStatusRepo.findById(orderDto.getStatus().getStatusId())
+	        		    .orElseThrow(() -> new ResourceNotFoundException("order status", "id", orderDto.getStatus().getStatusId()));
+	        	Driver driver = driverRepo.findById(orderDto.getDriver().getId())
+	        			.orElseThrow(()-> new ResourceNotFoundException("driver", "id", orderDto.getDriver().getId()));
 	        		orderRepo.updateOrderById(orderDto.getPrice(), status, driver, order.getOrderId());
 Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFoundException("Order","id", id));
 	            OrderDto backSavedOrder = mapper.map(updatedOrder, OrderDto.class);

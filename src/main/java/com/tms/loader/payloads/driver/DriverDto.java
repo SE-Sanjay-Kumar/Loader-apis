@@ -1,5 +1,6 @@
 package com.tms.loader.payloads.driver;
 
+import com.tms.loader.entities.Status;
 import com.tms.loader.payloads.UserDto;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,5 @@ public class DriverDto extends UserDto{
 	private int yearsOfExperience;
 	private int salary;
 	private int foodCost;
-	private Integer statusId;
+	private Status status;
 }
