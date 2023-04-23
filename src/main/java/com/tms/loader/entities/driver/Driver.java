@@ -1,6 +1,7 @@
 package com.tms.loader.entities.driver;
 
 import com.tms.loader.entities.User;
+import com.tms.loader.entities.vehicle.Freight;
 
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
@@ -9,6 +10,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -32,4 +34,7 @@ public class Driver extends User {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "dstatus_id", nullable=true)
 	private DriverStatus status;
+	@OneToOne
+	@JoinColumn(name="vehicleId")
+	private Freight vehicle;
 }

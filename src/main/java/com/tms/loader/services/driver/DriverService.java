@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 import com.tms.loader.entities.Status;
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverStatus;
+import com.tms.loader.entities.vehicle.Vehicle;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
 import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.driver.DriverDto;
+import com.tms.loader.payloads.driver.DriverWithVehicleDto;
 import com.tms.loader.repositories.driver.DriverRepo;
 import com.tms.loader.repositories.driver.DriverStatusRepo;
 
@@ -70,5 +72,20 @@ public class DriverService {
 		
 		return driverDtoList;
 	}
+	public List<DriverWithVehicleDto> getDriversWithVehicle(){
+		List<Object[]> driverJoinVehicle =  repo.findByVehicleIdJoin();
+		List<DriverWithVehicleDto> driverWithVehicleDto = driverJoinVehicle.stream()
+                .map( dto ->{
+                	System.out.println("dto contains "+dto[0]);
+                	Driver driver = (Driver) dto[0]; 
+            		Vehicle vehicle = (Vehicle) dto[1];      
+            		DriverWithVehicleDto resp = mapper.map(vehicle, DriverWithVehicleDto.class);		                                    		
+            		mapper.map(driver, resp);
+            		return resp;
+                })
+                .collect(Collectors.toList());
+return driverWithVehicleDto;
+	}
+	
 	
 }

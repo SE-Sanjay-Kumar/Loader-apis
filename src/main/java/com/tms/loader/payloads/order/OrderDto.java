@@ -18,6 +18,7 @@ import lombok.Setter;
 @Getter
 public class OrderDto {
 	private Long orderId;
+	private Integer noOfLabors;
 	private float totalWeight;
 	private float totalSize;
 	private boolean fragility;

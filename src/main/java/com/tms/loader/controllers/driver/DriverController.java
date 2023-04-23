@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.driver.DriverDto;
+import com.tms.loader.payloads.driver.DriverWithVehicleDto;
 import com.tms.loader.services.driver.DriverService;
 
 @RestController
@@ -26,10 +27,16 @@ public class DriverController {
 		System.out.println("This is new dto "+respdto);
 		return new ResponseEntity<DriverDto>(respdto, HttpStatus.CREATED);
 	}
+	
 	@GetMapping("/")
 	ResponseEntity<List<DriverDto>> getDrivers(){
 		List<DriverDto> list = this.service.getDrivers();
 		return new ResponseEntity<List<DriverDto>>(list, HttpStatus.OK);
+	}
+	@GetMapping("/driver-vehicle")
+	ResponseEntity<List<DriverWithVehicleDto>> getDriversWithVehicle(){
+		List<DriverWithVehicleDto> list = this.service.getDriversWithVehicle();
+		return new ResponseEntity<List<DriverWithVehicleDto>>(list, HttpStatus.OK);
 	}
 	@GetMapping("/{id}")
 	ResponseEntity<DriverDto> getDriverById(@PathVariable Long id){

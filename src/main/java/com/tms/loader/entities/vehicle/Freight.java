@@ -22,4 +22,5 @@ public class Freight extends Vehicle {
 	@ManyToOne
 	@JoinColumn(name = "vstatus_id")
 	private VehicleStatus status;
+	
 }	

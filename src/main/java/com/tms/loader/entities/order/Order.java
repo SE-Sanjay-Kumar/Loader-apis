@@ -37,6 +37,8 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="order_id")
 	private Long orderId;
+	@Column(name="number_of_labors")
+	private Integer noOfLabors;
 	@Column(name="total_weight")
 	private float totalWeight;
 	@Column(name="total_size")
