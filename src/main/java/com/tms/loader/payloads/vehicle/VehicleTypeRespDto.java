@@ -1,7 +1,5 @@
 package com.tms.loader.payloads.vehicle;
 
-import com.tms.loader.entities.vehicle.VehicleType;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VehicleTypeRespDto {
-	private VehicleType type;
+	private Integer typeId;
+	private String typeName;
 }
