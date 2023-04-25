@@ -55,7 +55,7 @@ public class VehicleTypeService {
 	}
 	public boolean deleteVehicleType(Integer id) {
 		VehicleTypeRespDto dto = this.getVehicleType(id);
-		repo.deleteById(dto.getType().getTypeId());
+		repo.deleteById(dto.getTypeId());
 		return true;
 	
 	}
