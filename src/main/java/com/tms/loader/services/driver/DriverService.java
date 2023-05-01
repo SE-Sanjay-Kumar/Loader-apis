@@ -9,23 +9,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.tms.loader.configs.MYConstants;
 import com.tms.loader.entities.Status;
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverStatus;
 import com.tms.loader.entities.vehicle.Vehicle;
+import com.tms.loader.entities.vehicle.VehicleStatus;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
 import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
+import com.tms.loader.payloads.StatusDto;
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.payloads.driver.DriverWithVehicleDto;
+import com.tms.loader.payloads.vehicle.UpdateFreightDto;
 import com.tms.loader.repositories.driver.DriverRepo;
 import com.tms.loader.repositories.driver.DriverStatusRepo;
+import com.tms.loader.repositories.vehicle.FreightRepo;
+import com.tms.loader.services.vehicle.FreightService;
+import com.tms.loader.services.vehicle.VehicleStatusService;
 
 @Service
 public class DriverService {
 	@Autowired
 	private DriverRepo repo;
+	@Autowired
+	private FreightRepo freightRepo;
+	@Autowired
+	private VehicleStatusService vstatusService;
 	@Autowired
 	private DriverStatusRepo statusRepo;
 	@Autowired
@@ -37,6 +48,9 @@ public class DriverService {
 		driver.setStatus(driverStatus);
 		try {
 			repo.save(driver);
+			StatusDto vstatus = vstatusService.getStatus(MYConstants.ASSIGNED);
+			VehicleStatus status = mapper.map(vstatus, VehicleStatus.class);
+			freightRepo.updateFreightById(status, dto.getVehicle().getVehicleId());
 		}catch (ConstraintViolationException e) {
 			throw new ConstraintViolationExceptionHandler(dto.getUserName());
 		}catch(DataIntegrityViolationException e) {

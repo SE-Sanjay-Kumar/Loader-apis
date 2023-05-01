@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.ApiResponse;
 import com.tms.loader.payloads.vehicle.FreightDto;
+import com.tms.loader.payloads.vehicle.UpdateFreightDto;
 import com.tms.loader.services.vehicle.FreightService;
 
 @RestController
@@ -30,9 +32,15 @@ public class FreightController {
 	public ResponseEntity<FreightDto> getFreight(@PathVariable Long id){
 		return new ResponseEntity<FreightDto>(freightService.getFreight(id), HttpStatus.OK);
 	}
+	
 	@GetMapping("/")
 	public ResponseEntity<List<FreightDto>> getAllFreights(){
 		return new ResponseEntity<List<FreightDto>>(freightService.getAllFreights(), HttpStatus.OK);
+	}
+	@PutMapping("/{id}")
+	public ResponseEntity<FreightDto> updateFreight(@RequestBody UpdateFreightDto dto, @PathVariable Long id){
+		return new ResponseEntity<FreightDto>(freightService.updateFreight(dto,id), HttpStatus.OK);
+		
 	}
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse> deleteFreight(@PathVariable Long id){
