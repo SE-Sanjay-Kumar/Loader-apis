@@ -1,7 +1,7 @@
 package com.tms.loader.entities.order;
 
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.tms.loader.entities.Client;
 import com.tms.loader.entities.driver.Driver;
@@ -64,8 +64,8 @@ public class Order {
 	private OrderLocation orderLocation;
 	@Embedded
 	private OrderSchedule orderSchedule;
-	@Column(name = "estimated_arrival")
-    private LocalDateTime estimatedArrival; 
+	@Column(name = "estimated_arrivalgoods")
+    private Date estimatedArrivalOfGoods; 
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
     private ClientReview clientReview;
     

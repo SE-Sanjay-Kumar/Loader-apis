@@ -1,6 +1,8 @@
 package com.tms.loader.payloads.order;
 
 
+import java.util.Date;
+
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.order.OrderStatus;
 
@@ -17,5 +19,6 @@ public class UpdateOrderDto {
 	private Long orderId;
 	private OrderStatus status;
 	private Driver driver;
+	private Date estimatedArrivalOfGoods;
 	private float price;
 }

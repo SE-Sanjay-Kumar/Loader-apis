@@ -1,5 +1,6 @@
 package com.tms.loader.repositories.order;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +21,7 @@ public interface OrderRepo extends JpaRepository<Order, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query("update Order set price = ?1, status= ?2,driver=?3 where orderId = ?4")
-	int updateOrderById(float price, OrderStatus status, Driver driverId, Long id);
+	@Query("update Order set price = ?1, status= ?2,estimatedArrivalOfGoods=?3 ,driver=?4 where orderId = ?5")
+	int updateOrderById(float price, OrderStatus status,Date estimatedArrivalOfGoods, Driver driverId, Long id);
 
 }

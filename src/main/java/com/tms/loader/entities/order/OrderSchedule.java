@@ -1,6 +1,6 @@
 package com.tms.loader.entities.order;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -16,5 +16,5 @@ import lombok.Setter;
 @Getter
 public class OrderSchedule {
 	@Column(name = "schedule")
-    private LocalDateTime schedule; 
+    private Date schedule; 
 }

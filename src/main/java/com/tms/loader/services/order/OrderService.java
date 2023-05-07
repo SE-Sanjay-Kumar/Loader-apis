@@ -122,13 +122,21 @@ order.setStatus(status);
 	        			.orElseThrow(()-> new ResourceNotFoundException("driver", "id", orderDto.getDriver().getId()));
 	        	System.out.println("here before update order  "+status.getStatus());
 	        		
-	        	orderRepo.updateOrderById(orderDto.getPrice(), status, driver, order.getOrderId());
+	        	orderRepo.updateOrderById(orderDto.getPrice(), status,orderDto.getEstimatedArrivalOfGoods(), driver, order.getOrderId());
 	        	Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFoundException("Order","id", id));
 	            OrderDto backSavedOrder = mapper.map(updatedOrder, OrderDto.class);
 	            System.out.println("Here the "+order.getStatus().getStatusId());
 	            // if order is assigned then mark driver and his/her vehicle as booked
+//	            if (order.getStatus().getStatusId() == MYConstants.ORDER_ACTIVE) {
+//	            	updationToDriverAndVehicle(driver, MYConstants.DRIVER_PROGRESS, MYConstants.VEHICLE_ASSIGNED);
+//	            	System.out.println("Here");
+//	            }
 	            if (order.getStatus().getStatusId() == MYConstants.ORDER_ACTIVE) {
-	            	updationToDriverAndVehicle(driver, MYConstants.DRIVER_PROGRESS, MYConstants.VEHICLE_ASSIGNED);
+	            	updationToDriverAndVehicle(driver, MYConstants.DRIVER_BUSY, MYConstants.VEHICLE_ASSIGNED);
+	            	System.out.println("Here");
+	            }
+	            if (order.getStatus().getStatusId() == MYConstants.ORDER_DELIVERED) {
+	            	updationToDriverAndVehicle(driver, MYConstants.DRIVER_AVAILABLE, MYConstants.VEHICLE_AVAILABLE);
 	            	System.out.println("Here");
 	            }
 	    	    backSavedOrder.setPickUp(updatedOrder.getOrderLocation().getPickUp());

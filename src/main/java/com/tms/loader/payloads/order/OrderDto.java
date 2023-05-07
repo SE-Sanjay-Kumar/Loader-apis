@@ -1,6 +1,6 @@
 package com.tms.loader.payloads.order;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.tms.loader.entities.Client;
 import com.tms.loader.entities.Status;
@@ -29,7 +29,7 @@ public class OrderDto {
 	private Payment payment;
 	private String pickUp;
 	private String dropOff;
-	private LocalDateTime estimatedArrival; 
-	private LocalDateTime schedule;
+	private Date estimatedArrivalOfGoods; 
+	private Date schedule;
 	
 }
