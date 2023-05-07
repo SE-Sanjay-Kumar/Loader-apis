@@ -32,7 +32,7 @@ public class OrderController {
     }
     @GetMapping("/")
     public ResponseEntity<List<OrderDto>> getOrders() {
-        return new ResponseEntity<List<OrderDto>>(orderService.getAllOrders(), HttpStatus.CREATED); 
+        return new ResponseEntity<List<OrderDto>>(orderService.getAllOrders(), HttpStatus.OK); 
     }
     // Update an order by ID
     @PutMapping("/{id}")

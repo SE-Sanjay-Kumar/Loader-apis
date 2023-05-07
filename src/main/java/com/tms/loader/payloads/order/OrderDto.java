@@ -29,6 +29,7 @@ public class OrderDto {
 	private Payment payment;
 	private String pickUp;
 	private String dropOff;
+	private LocalDateTime estimatedArrival; 
 	private LocalDateTime schedule;
 	
 }

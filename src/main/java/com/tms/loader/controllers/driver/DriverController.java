@@ -8,12 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.payloads.driver.DriverWithVehicleDto;
+import com.tms.loader.payloads.driver.UpdateDriverDto;
 import com.tms.loader.services.driver.DriverService;
 
 @RestController
@@ -48,5 +50,10 @@ public class DriverController {
 		System.out.println("Hello inside status id join");
 		List<DriverDto> list = this.service.getDriversWithStatusId(statusId);
 		return new ResponseEntity<List<DriverDto>>(list, HttpStatus.OK);
+	}
+	@PutMapping("/{id}")
+	ResponseEntity<DriverDto> updateDriver(@RequestBody UpdateDriverDto driverDto, @PathVariable Long id){
+		System.out.println("data in controller"+driverDto.getUserName()+driverDto.getStatus());
+		return new ResponseEntity<DriverDto>(service.updateDriver(driverDto, id), HttpStatus.OK);
 	}
 }

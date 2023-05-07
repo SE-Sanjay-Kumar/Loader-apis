@@ -8,15 +8,19 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tms.loader.configs.MYConstants;
 import com.tms.loader.entities.Client;
 import com.tms.loader.entities.driver.Driver;
+import com.tms.loader.entities.driver.DriverStatus;
 import com.tms.loader.entities.order.Order;
 import com.tms.loader.entities.order.OrderLocation;
 import com.tms.loader.entities.order.OrderSchedule;
 import com.tms.loader.entities.order.OrderStatus;
 import com.tms.loader.entities.payment.Payment;
+import com.tms.loader.entities.vehicle.VehicleStatus;
 import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
+import com.tms.loader.payloads.StatusDto;
 import com.tms.loader.payloads.order.OrderDto;
 import com.tms.loader.payloads.order.UpdateOrderDto;
 import com.tms.loader.repositories.ClientRepo;
@@ -24,6 +28,9 @@ import com.tms.loader.repositories.driver.DriverRepo;
 import com.tms.loader.repositories.order.OrderRepo;
 import com.tms.loader.repositories.order.OrderStatusRepo;
 import com.tms.loader.repositories.payment.PaymentRepo;
+import com.tms.loader.repositories.vehicle.FreightRepo;
+import com.tms.loader.services.driver.DriverStatusService;
+import com.tms.loader.services.vehicle.VehicleStatusService;
 
 
 
@@ -36,9 +43,15 @@ public class OrderService {
 	@Autowired
 	private DriverRepo driverRepo;
 	@Autowired
+	private FreightRepo freightRepo;
+	@Autowired
 	private PaymentRepo paymentRepo;
 	@Autowired
+	private VehicleStatusService vehicleStatusService;
+	@Autowired
 	private OrderStatusRepo orderStatusRepo;
+	@Autowired
+	private DriverStatusService driverStatusService;
 	@Autowired
 	private ModelMapper mapper;
 	
@@ -88,11 +101,13 @@ order.setStatus(status);
 	    backSavedOrder.setDropOff(savedOrder.getOrderLocation().getDropOff());
 	    return backSavedOrder;
 	}
-
+	
 	// update order
 	public OrderDto updateOrder(UpdateOrderDto orderDto, Long id) {
+		System.out.println("In update order step 1");
 		Optional<Order> optionalOrder = orderRepo.findById(id);
 	    if (optionalOrder.isPresent()) {
+	    	System.out.println("In update order step 2");
 	        Order order = optionalOrder.get();
 	        mapper.map(orderDto, order);
 	        try {
@@ -105,9 +120,17 @@ order.setStatus(status);
 	        		    .orElseThrow(() -> new ResourceNotFoundException("order status", "id", orderDto.getStatus().getStatusId()));
 	        	Driver driver = driverRepo.findById(orderDto.getDriver().getId())
 	        			.orElseThrow(()-> new ResourceNotFoundException("driver", "id", orderDto.getDriver().getId()));
-	        		orderRepo.updateOrderById(orderDto.getPrice(), status, driver, order.getOrderId());
-Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFoundException("Order","id", id));
+	        	System.out.println("here before update order  "+status.getStatus());
+	        		
+	        	orderRepo.updateOrderById(orderDto.getPrice(), status, driver, order.getOrderId());
+	        	Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFoundException("Order","id", id));
 	            OrderDto backSavedOrder = mapper.map(updatedOrder, OrderDto.class);
+	            System.out.println("Here the "+order.getStatus().getStatusId());
+	            // if order is assigned then mark driver and his/her vehicle as booked
+	            if (order.getStatus().getStatusId() == MYConstants.ORDER_ACTIVE) {
+	            	updationToDriverAndVehicle(driver, MYConstants.DRIVER_PROGRESS, MYConstants.VEHICLE_ASSIGNED);
+	            	System.out.println("Here");
+	            }
 	    	    backSavedOrder.setPickUp(updatedOrder.getOrderLocation().getPickUp());
 	    	    backSavedOrder.setDropOff(updatedOrder.getOrderLocation().getDropOff());
 	    	    return backSavedOrder;
@@ -118,6 +141,21 @@ Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFou
 	    } else {
 	        throw new ResourceNotFoundException("Order", "id", id);
 	    }
+	}
+	public void updationToDriverAndVehicle(Driver driver, Integer driverStatusCode, Integer vehicleStatusCode) {
+		System.out.println("before updation of driver status");
+    	
+		StatusDto  progressStatusDto = driverStatusService.getStatus(driverStatusCode);
+    	DriverStatus driverStatus = mapper.map(progressStatusDto, DriverStatus.class);
+    	driverRepo.updateDriverById(driverStatus, driver.getUserName(), driver.getId());
+    	System.out.println("before updation of vehicle status");
+    	
+    	Long vid = driver.getVehicle().getVehicleId();
+    	StatusDto vstatusdto =  vehicleStatusService.getStatus(vehicleStatusCode);
+    	VehicleStatus vstatus = mapper.map(vstatusdto, VehicleStatus.class);
+    	freightRepo.updateFreightById(vstatus, vid);
+    	System.out.println("after updation of vehicle status");
+    	
 	}
 	// delete order
 	public boolean deleteOrder(Long id) {

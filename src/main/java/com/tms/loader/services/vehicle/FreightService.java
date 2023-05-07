@@ -1,7 +1,6 @@
 package com.tms.loader.services.vehicle;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -11,17 +10,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.tms.loader.configs.ModelMapperConfig;
-import com.tms.loader.entities.driver.Driver;
-import com.tms.loader.entities.order.Order;
-import com.tms.loader.entities.order.OrderStatus;
 import com.tms.loader.entities.vehicle.Freight;
 import com.tms.loader.entities.vehicle.VehicleType;
-import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
-import com.tms.loader.payloads.order.OrderDto;
-import com.tms.loader.payloads.order.UpdateOrderDto;
 import com.tms.loader.payloads.vehicle.FreightDto;
 import com.tms.loader.payloads.vehicle.UpdateFreightDto;
 import com.tms.loader.repositories.vehicle.FreightRepo;

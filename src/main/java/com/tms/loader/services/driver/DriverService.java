@@ -1,6 +1,7 @@
 package com.tms.loader.services.driver;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -22,11 +23,10 @@ import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.StatusDto;
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.payloads.driver.DriverWithVehicleDto;
-import com.tms.loader.payloads.vehicle.UpdateFreightDto;
+import com.tms.loader.payloads.driver.UpdateDriverDto;
 import com.tms.loader.repositories.driver.DriverRepo;
 import com.tms.loader.repositories.driver.DriverStatusRepo;
 import com.tms.loader.repositories.vehicle.FreightRepo;
-import com.tms.loader.services.vehicle.FreightService;
 import com.tms.loader.services.vehicle.VehicleStatusService;
 
 @Service
@@ -48,7 +48,7 @@ public class DriverService {
 		driver.setStatus(driverStatus);
 		try {
 			repo.save(driver);
-			StatusDto vstatus = vstatusService.getStatus(MYConstants.ASSIGNED);
+			StatusDto vstatus = vstatusService.getStatus(MYConstants.VEHICLE_ASSIGNED);
 			VehicleStatus status = mapper.map(vstatus, VehicleStatus.class);
 			freightRepo.updateFreightById(status, dto.getVehicle().getVehicleId());
 		}catch (ConstraintViolationException e) {
@@ -100,6 +100,26 @@ public class DriverService {
                 .collect(Collectors.toList());
 return driverWithVehicleDto;
 	}
-	
+	// for update of driver data
+	public DriverDto updateDriver(UpdateDriverDto updateDriverDto, Long id) {
+		System.out.println("data: "+updateDriverDto.getUserName()+updateDriverDto.getStatus());
+		Optional<Driver> optionalDriver = repo.findById(id);
+		if (optionalDriver.isPresent()) {
+			try {
+				System.out.println("I am here");
+				repo.updateDriverById(updateDriverDto.getStatus(),updateDriverDto.getUserName() , id);
+				Driver updatedDriver = repo.findById(id).orElseThrow(
+						
+						()->  new ResourceNotFoundException("Driver","id", id));
+				return mapper.map(updatedDriver, DriverDto.class);
+			}catch (Exception e) {
+	        	System.out.println(e.getLocalizedMessage()+e.getStackTrace());
+	            throw new AllExceptionHandler();
+	        }
+			
+		}else {
+	        throw new ResourceNotFoundException("Driver", "id", id);
+	    }
+	}
 	
 }
