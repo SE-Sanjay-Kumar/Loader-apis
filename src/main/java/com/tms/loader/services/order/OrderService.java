@@ -118,8 +118,12 @@ order.setStatus(status);
 	        	
 	        	OrderStatus status = orderStatusRepo.findById(orderDto.getStatus().getStatusId())
 	        		    .orElseThrow(() -> new ResourceNotFoundException("order status", "id", orderDto.getStatus().getStatusId()));
-	        	Driver driver = driverRepo.findById(orderDto.getDriver().getId())
-	        			.orElseThrow(()-> new ResourceNotFoundException("driver", "id", orderDto.getDriver().getId()));
+	        	Driver driver = null;
+	        	if (orderDto.getDriver()!=null) {
+	        		 driver = driverRepo.findById(orderDto.getDriver().getId())
+		        			.orElseThrow(()-> new ResourceNotFoundException("driver", "id", orderDto.getDriver().getId()));
+		        	
+	        	}
 	        	System.out.println("here before update order  "+status.getStatus());
 	        		
 	        	orderRepo.updateOrderById(orderDto.getPrice(), status,orderDto.getEstimatedArrivalOfGoods(), driver, order.getOrderId());
