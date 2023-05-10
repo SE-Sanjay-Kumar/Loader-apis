@@ -1,6 +1,6 @@
 package com.tms.loader.payloads.review;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.tms.loader.entities.order.Order;
 
@@ -16,6 +16,6 @@ public class ReviewDto {
 	protected Long reviewId;
 	protected Integer rating;
 	protected String comment;
-	protected LocalDateTime reviewDate;
+	protected Date reviewDate;
 	protected Order order;
 }
