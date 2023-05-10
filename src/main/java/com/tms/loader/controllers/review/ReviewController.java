@@ -58,6 +58,7 @@ public class ReviewController {
 
     @GetMapping("client-reviews")
     public ResponseEntity<List<ClientReviewDto>> getAllClientReviews() {
+    	System.out.println("here in client reviews");
         List<ClientReviewDto> clientReviewDtos = reviewService.getAllReviewsOfClients();
         return ResponseEntity.ok(clientReviewDtos);
     }

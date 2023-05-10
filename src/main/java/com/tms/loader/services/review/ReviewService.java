@@ -74,14 +74,23 @@ public class ReviewService {
         
     }
     public ClientReviewDto getClientReviewsByOrderId(Long orderId) {
-        ClientReview clientReview = clientReviewRepo.findById(orderId).orElseThrow(()->
-        new ResourceNotFoundException("client review", "id", orderId));	
+    	System.out.println("here at client reviews");
+    	Order order = orderRepo.findById(orderId).orElseThrow(() -> 
+    	new ResourceNotFoundException("order", "id", orderId)
+    );
+        ClientReview clientReview = clientReviewRepo.findByOrder(order);
+        if (clientReview==null) {
+        	throw new ResourceNotFoundException("order ", "id", orderId);
+            
+        }
+//       return null;
         return mapper.map(clientReview, ClientReviewDto.class);
     }
     public DriverReviewDto getDriverReviewsByOrderId(Long orderId) {
-        DriverReview driverReview = driverReviewRepo.findById(orderId).orElseThrow(()->
-        new ResourceNotFoundException("client review", "id", orderId));
-        		
+        DriverReview driverReview = (DriverReview) driverReviewRepo.findByOrder(orderId);
+        if (driverReview==null) {
+        	throw new ResourceNotFoundException("order ", "id", orderId);
+        }
         return mapper.map(driverReview, DriverReviewDto.class);
     }
     public List<DriverReviewDto> getAllReviewsOfDrivers() {

@@ -1,6 +1,6 @@
 package com.tms.loader.entities.review;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import com.tms.loader.entities.order.Order;
 
@@ -26,7 +26,7 @@ public class Review {
 	protected Integer rating;
 	protected String comment;
 	@Column(name="review_date")
-	protected LocalDateTime reviewDate;
+	protected Date reviewDate;
 	@OneToOne
     @JoinColumn(name = "order_id", unique = true)
     protected Order order;

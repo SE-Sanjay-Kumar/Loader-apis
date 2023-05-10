@@ -6,10 +6,6 @@ import java.util.Date;
 import com.tms.loader.entities.Client;
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.payment.Payment;
-import com.tms.loader.entities.review.ClientReview;
-import com.tms.loader.entities.review.DriverReview;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -19,7 +15,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,9 +61,9 @@ public class Order {
 	private OrderSchedule orderSchedule;
 	@Column(name = "estimated_arrivalgoods")
     private Date estimatedArrivalOfGoods; 
-	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
-    private ClientReview clientReview;
-    
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
-    private DriverReview driverReview;
+//	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+//    private ClientReview clientReview;
+//    
+//    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+//    private DriverReview driverReview;
 }
