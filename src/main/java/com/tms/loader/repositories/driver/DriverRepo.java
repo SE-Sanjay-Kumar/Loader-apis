@@ -24,6 +24,6 @@ public interface DriverRepo extends JpaRepository<Driver, Long> {
 	@Modifying
 	@Query("update Driver set status= ?1, userName=?2 where id=?3")
 	int updateDriverById(DriverStatus status,String userName, Long id);
-
+	Driver findByuserName(String userName);
 	
 }

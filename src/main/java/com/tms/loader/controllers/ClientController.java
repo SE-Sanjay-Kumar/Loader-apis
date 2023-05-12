@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.tms.loader.payloads.ClientDto;
+import com.tms.loader.payloads.LoginDto;
 import com.tms.loader.services.ClientService;
 
 @RestController
@@ -28,6 +29,14 @@ public class ClientController {
 		ClientDto respdto = this.clientService.createClient(dto);
 		System.out.println("This is new dto "+dto);
 		return new ResponseEntity<ClientDto>(respdto, HttpStatus.CREATED);
+	}
+	@PostMapping("/login")
+	ResponseEntity<?> authClient(@RequestBody LoginDto loginDto){
+		boolean authenticated = clientService.authClient(loginDto.getUserName(), loginDto.getPassword());
+		if(authenticated) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	@GetMapping("/")
 	ResponseEntity<List<ClientDto>> getClients(){

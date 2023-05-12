@@ -62,4 +62,15 @@ public class ClientService {
 		return mapper.map(clientRepo.findById(id), ClientDto.class);
 		
 	}
+	
+	public boolean authClient(String username, String password) {
+	    Client client = clientRepo.findByuserName(username);
+	    if (client == null) {
+	        // If no admin user with the given username exists, return false
+	        return false;
+	    } else {
+	        // If an admin user with the given username exists, check if the password matches
+	        return client.getPassword().equals(password);
+	    }
+	}
 }

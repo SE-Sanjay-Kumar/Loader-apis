@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.AdminDto;
+import com.tms.loader.payloads.LoginDto;
 import com.tms.loader.services.AdminService;
 
 @RestController
@@ -22,6 +23,14 @@ public class AdminController {
 		System.out.print("ready to create");
 		AdminDto respdto = this.adminService.createAdmin(dto);
 		return new ResponseEntity<AdminDto>(respdto, HttpStatus.CREATED);
+	}
+	@PostMapping("/login")
+	ResponseEntity<?> authAdmin(@RequestBody LoginDto loginDto){
+		boolean authenticated = adminService.authAdmin(loginDto.getUserName(), loginDto.getPassword());
+		if(authenticated) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 	}
 	@GetMapping("/")
 	ResponseEntity<AdminDto> getAdmin(){

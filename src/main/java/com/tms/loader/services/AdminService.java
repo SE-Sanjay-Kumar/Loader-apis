@@ -38,10 +38,20 @@ public class AdminService {
 		}
 		return mapper.map(admin, AdminDto.class);
 	}
+	
 	public AdminDto getAdmin() {
 		System.out.println("getter admin");
 		return mapper.map(adminRepo.getAdmin(), AdminDto.class);
 	}
-	
+	public boolean authAdmin(String username, String password) {
+	    Admin admin = adminRepo.findByuserName(username);
+	    if (admin == null) {
+	        // If no admin user with the given username exists, return false
+	        return false;
+	    } else {
+	        // If an admin user with the given username exists, check if the password matches
+	        return admin.getPassword().equals(password);
+	    }
+	}
 	
 }

@@ -17,4 +17,5 @@ public interface AdminRepo extends JpaRepository<Admin, Long> {
 	@Query(value = "SELECT *\r\n"
 			+ "FROM admin LIMIT 1\r\n" , nativeQuery = true)
 	Admin getAdmin();
+	Admin findByuserName(String username);
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tms.loader.payloads.LoginDto;
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.payloads.driver.DriverWithVehicleDto;
 import com.tms.loader.payloads.driver.UpdateDriverDto;
@@ -29,7 +30,14 @@ public class DriverController {
 		System.out.println("This is new dto "+respdto);
 		return new ResponseEntity<DriverDto>(respdto, HttpStatus.CREATED);
 	}
-	
+	@PostMapping("/login")
+	ResponseEntity<?> authDriver(@RequestBody LoginDto loginDto){
+		boolean authenticated = service.authDriver(loginDto.getUserName(), loginDto.getPassword());
+		if(authenticated) {
+			return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
 	@GetMapping("/")
 	ResponseEntity<List<DriverDto>> getDrivers(){
 		List<DriverDto> list = this.service.getDrivers();

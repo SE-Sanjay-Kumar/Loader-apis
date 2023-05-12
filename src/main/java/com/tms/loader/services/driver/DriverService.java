@@ -121,5 +121,16 @@ return driverWithVehicleDto;
 	        throw new ResourceNotFoundException("Driver", "id", id);
 	    }
 	}
+	public boolean authDriver(String username, String password) {
+	    Driver driver = repo.findByuserName(username);
+	    if (driver == null) {
+	        // If no admin user with the given username exists, return false
+	        return false;
+	    } else {
+	        // If an admin user with the given username exists, check if the password matches
+	        return driver.getPassword().equals(password);
+	    }
+	}
+
 	
 }
