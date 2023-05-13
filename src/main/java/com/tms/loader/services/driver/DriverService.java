@@ -20,6 +20,7 @@ import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
 import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
+import com.tms.loader.payloads.LoginUserDetailDto;
 import com.tms.loader.payloads.StatusDto;
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.payloads.driver.DriverWithVehicleDto;
@@ -121,14 +122,16 @@ return driverWithVehicleDto;
 	        throw new ResourceNotFoundException("Driver", "id", id);
 	    }
 	}
-	public boolean authDriver(String username, String password) {
+	public LoginUserDetailDto authDriver(String username, String password) {
 	    Driver driver = repo.findByuserName(username);
 	    if (driver == null) {
 	        // If no admin user with the given username exists, return false
-	        return false;
+	        return null;
 	    } else {
 	        // If an admin user with the given username exists, check if the password matches
-	        return driver.getPassword().equals(password);
+	        if(driver.getPassword().equals(password)) {
+	        	return mapper.map(driver, LoginUserDetailDto.class);
+	        }return null;
 	    }
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.AdminDto;
 import com.tms.loader.payloads.LoginDto;
+import com.tms.loader.payloads.LoginUserDetailDto;
 import com.tms.loader.services.AdminService;
 
 @RestController
@@ -25,12 +26,12 @@ public class AdminController {
 		return new ResponseEntity<AdminDto>(respdto, HttpStatus.CREATED);
 	}
 	@PostMapping("/login")
-	ResponseEntity<?> authAdmin(@RequestBody LoginDto loginDto){
-		boolean authenticated = adminService.authAdmin(loginDto.getUserName(), loginDto.getPassword());
-		if(authenticated) {
-			return ResponseEntity.status(HttpStatus.OK).build();
+	ResponseEntity<LoginUserDetailDto> authAdmin(@RequestBody LoginDto loginDto){
+		LoginUserDetailDto userDetailDto = adminService.authAdmin(loginDto.getUserName(), loginDto.getPassword());
+		if(userDetailDto != null) {
+			return new ResponseEntity<LoginUserDetailDto>(userDetailDto, HttpStatus.OK);
 		}
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		return new ResponseEntity<LoginUserDetailDto>(userDetailDto, HttpStatus.UNAUTHORIZED);
 	}
 	@GetMapping("/")
 	ResponseEntity<AdminDto> getAdmin(){

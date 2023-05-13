@@ -15,6 +15,7 @@ import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
 import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
 import com.tms.loader.payloads.ClientDto;
+import com.tms.loader.payloads.LoginUserDetailDto;
 import com.tms.loader.repositories.ClientRepo;
 
 @Service
@@ -63,14 +64,16 @@ public class ClientService {
 		
 	}
 	
-	public boolean authClient(String username, String password) {
-	    Client client = clientRepo.findByuserName(username);
+	public LoginUserDetailDto authClient(String username, String password) {
+		Client client = clientRepo.findByuserName(username);
 	    if (client == null) {
 	        // If no admin user with the given username exists, return false
-	        return false;
+	        return null;
 	    } else {
 	        // If an admin user with the given username exists, check if the password matches
-	        return client.getPassword().equals(password);
+	        if(client.getPassword().equals(password)) {
+	        	return mapper.map(client, LoginUserDetailDto.class);
+	        }return null;
 	    }
 	}
 }

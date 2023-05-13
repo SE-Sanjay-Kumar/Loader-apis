@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tms.loader.payloads.LoginDto;
+import com.tms.loader.payloads.LoginUserDetailDto;
 import com.tms.loader.payloads.driver.DriverDto;
 import com.tms.loader.payloads.driver.DriverWithVehicleDto;
 import com.tms.loader.payloads.driver.UpdateDriverDto;
@@ -31,12 +32,12 @@ public class DriverController {
 		return new ResponseEntity<DriverDto>(respdto, HttpStatus.CREATED);
 	}
 	@PostMapping("/login")
-	ResponseEntity<?> authDriver(@RequestBody LoginDto loginDto){
-		boolean authenticated = service.authDriver(loginDto.getUserName(), loginDto.getPassword());
-		if(authenticated) {
-			return ResponseEntity.status(HttpStatus.OK).build();
+	ResponseEntity<LoginUserDetailDto> authDriver(@RequestBody LoginDto loginDto){
+		LoginUserDetailDto userDetailDto = service.authDriver(loginDto.getUserName(), loginDto.getPassword());
+		if(userDetailDto != null) {
+			return new ResponseEntity<LoginUserDetailDto>(userDetailDto, HttpStatus.OK);
 		}
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		return new ResponseEntity<LoginUserDetailDto>(userDetailDto, HttpStatus.UNAUTHORIZED);
 	}
 	@GetMapping("/")
 	ResponseEntity<List<DriverDto>> getDrivers(){
