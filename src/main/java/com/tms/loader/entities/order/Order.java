@@ -13,7 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -34,6 +34,8 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="order_id")
 	private Long orderId;
+	@Column(name="order_name")
+	private String orderName;
 	@Column(name="number_of_labors")
 	private Integer noOfLabors;
 	@Column(name="total_weight")
@@ -61,6 +63,14 @@ public class Order {
 	private OrderSchedule orderSchedule;
 	@Column(name = "estimated_arrivalgoods")
     private Date estimatedArrivalOfGoods; 
+	
+	@Lob
+    @Column(name = "image")
+    private byte[] image; // added field to store the image
+    @Column(name = "image_name")
+    private String imageName; // added field to store the image name
+    @Column(name = "image_type")
+    private String imageType; // added field to store the image type
 //	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
 //    private ClientReview clientReview;
 //    
