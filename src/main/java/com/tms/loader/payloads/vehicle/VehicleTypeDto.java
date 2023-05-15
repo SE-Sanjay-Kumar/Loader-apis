@@ -7,4 +7,5 @@ import lombok.Setter;
 @Getter
 public class VehicleTypeDto {
 	protected String typeName;
+	private float cost;
 }

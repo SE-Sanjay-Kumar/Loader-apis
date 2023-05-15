@@ -55,7 +55,12 @@
 			<scope>test</scope>
 		</dependency>
 		
-
+		<!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
+<dependency>
+    <groupId>com.stripe</groupId>
+    <artifactId>stripe-java</artifactId>
+    <version>22.20.0-beta.1</version>
+</dependency>
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 <dependency>
     <groupId>com.google.guava</groupId>
