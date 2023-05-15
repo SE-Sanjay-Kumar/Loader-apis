@@ -24,6 +24,8 @@ public abstract class Vehicle {
 	protected String name;
 	@Column(name="max_weightcarry")
 	protected Long maxWeightCarry;
+	@Column(name="max_sizecarry")
+	protected Long maxSizeCarry;
 	protected float mileage;
 	@Column(name="plate_no", unique= true, nullable=false)
 	protected String plateNo;
