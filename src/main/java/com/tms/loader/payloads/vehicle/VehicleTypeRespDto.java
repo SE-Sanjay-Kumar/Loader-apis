@@ -12,5 +12,5 @@ import lombok.Setter;
 public class VehicleTypeRespDto {
 	private Integer typeId;
 	private String typeName;
-	private float cost;
+	private Float cost;
 }

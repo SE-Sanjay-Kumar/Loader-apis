@@ -23,7 +23,7 @@ public class VehicleType {
 	@Column(name="type_name", unique=true, nullable=false)
 	private String typeName;
 	@Column(name="associated_cost")
-	private float cost;
+	private Float cost;
 //	@OneToMany(mappedBy = "vehicleId", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private List<Freight> freights;
 }
