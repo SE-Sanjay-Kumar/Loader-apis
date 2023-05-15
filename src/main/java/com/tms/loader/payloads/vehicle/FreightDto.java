@@ -19,5 +19,7 @@ public class FreightDto {
 	private float mileage;
 	private VehicleType type;
 	private VehicleStatus status;
-	protected Long maxSizeCarry;
+	private Long maxSizeCarry;
+	private Long minWeightCarry;
+	
 }
