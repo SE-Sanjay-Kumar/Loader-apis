@@ -25,6 +25,7 @@ import com.tms.loader.services.payment.StripeService;
 public class StripePaymentController {
 	@Autowired
 	StripeService stripeService;
+	
 	@Value("${stripe.apikey}")
 	private String apiKey;
 	
@@ -40,18 +41,17 @@ public class StripePaymentController {
 		return data;
 	}
 	
-	// create here the methods for charging to the customer 
-	
 	@PostMapping("/charge/{customerId}/{amount}/{description}")
-	public ResponseEntity<String> chargeCustomer(@PathVariable("customerId") String customerId,
-	@PathVariable("amount") int amount, @PathVariable("description") String description) {
-	try {
-	Charge charge = stripeService.chargeCreditCard(customerId, amount, description);
-	return ResponseEntity.ok("Charge Successful: " + charge.getId());
-	} catch (StripeException e) {
-	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	public ResponseEntity<String> chargeCustomer(
+			@PathVariable("customerId") String customerId,
+			@PathVariable("amount") int amount,
+			@PathVariable("description") String description) {
+		try {
+			System.out.println("Inside payment");
+			Charge charge = stripeService.chargeCreditCard(customerId, amount, description);
+			return ResponseEntity.ok("Charge Successful: " + charge.getId());
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 	}
-	}
-
-	
 }
