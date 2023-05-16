@@ -32,5 +32,6 @@ public class OrderDto {
 	private String dropOff;
 	private Date estimatedArrivalOfGoods; 
 	private Date schedule;
+	private String paymentStatus;
 	
 }

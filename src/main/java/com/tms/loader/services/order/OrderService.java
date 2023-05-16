@@ -126,7 +126,7 @@ order.setStatus(status);
 	        	}
 	        	System.out.println("here before update order  "+status.getStatus());
 	        		
-	        	orderRepo.updateOrderById(orderDto.getPrice(), status,orderDto.getEstimatedArrivalOfGoods(), driver, order.getOrderId());
+	        	orderRepo.updateOrderById(orderDto.getPrice(), status,orderDto.getEstimatedArrivalOfGoods(), driver,orderDto.getPaymentStatus(), order.getOrderId());
 	        	Order updatedOrder = orderRepo.findById(id).orElseThrow(()->  new ResourceNotFoundException("Order","id", id));
 	            OrderDto backSavedOrder = mapper.map(updatedOrder, OrderDto.class);
 	            System.out.println("Here the "+order.getStatus().getStatusId());

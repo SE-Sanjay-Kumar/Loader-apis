@@ -13,7 +13,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -64,13 +63,7 @@ public class Order {
 	@Column(name = "estimated_arrivalgoods")
     private Date estimatedArrivalOfGoods; 
 	
-	@Lob
-    @Column(name = "image")
-    private byte[] image; // added field to store the image
-    @Column(name = "image_name")
-    private String imageName; // added field to store the image name
-    @Column(name = "image_type")
-    private String imageType; // added field to store the image type
+    private String paymentStatus;
 //	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
 //    private ClientReview clientReview;
 //    

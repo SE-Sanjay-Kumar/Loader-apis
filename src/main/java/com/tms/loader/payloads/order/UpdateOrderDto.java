@@ -21,4 +21,5 @@ public class UpdateOrderDto {
 	private Driver driver;
 	private Date estimatedArrivalOfGoods;
 	private float price;
+	private String paymentStatus;
 }
