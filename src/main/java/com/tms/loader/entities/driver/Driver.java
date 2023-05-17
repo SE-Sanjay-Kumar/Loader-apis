@@ -37,4 +37,7 @@ public class Driver extends User {
 	@OneToOne
 	@JoinColumn(name="vehicleId")
 	private Freight vehicle;
+	
+//	added location
+	private String location;
 }

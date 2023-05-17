@@ -108,7 +108,7 @@ return driverWithVehicleDto;
 		if (optionalDriver.isPresent()) {
 			try {
 				System.out.println("I am here");
-				repo.updateDriverById(updateDriverDto.getStatus(),updateDriverDto.getUserName() , id);
+				repo.updateDriverById(updateDriverDto.getStatus(),updateDriverDto.getUserName() ,updateDriverDto.getLocation(), id);
 				Driver updatedDriver = repo.findById(id).orElseThrow(
 						
 						()->  new ResourceNotFoundException("Driver","id", id));

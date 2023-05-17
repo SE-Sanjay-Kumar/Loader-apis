@@ -20,4 +20,5 @@ public class DriverDto extends UserDto{
 	private int foodCost;
 	private Freight vehicle;
 	private Status status;
+	private String location;
 }

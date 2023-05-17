@@ -159,7 +159,7 @@ order.setStatus(status);
     	
 		StatusDto  progressStatusDto = driverStatusService.getStatus(driverStatusCode);
     	DriverStatus driverStatus = mapper.map(progressStatusDto, DriverStatus.class);
-    	driverRepo.updateDriverById(driverStatus, driver.getUserName(), driver.getId());
+    	driverRepo.updateDriverById(driverStatus, driver.getUserName(),driver.getLocation(), driver.getId());
     	System.out.println("before updation of vehicle status");
     	
     	Long vid = driver.getVehicle().getVehicleId();
