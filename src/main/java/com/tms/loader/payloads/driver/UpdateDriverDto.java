@@ -13,4 +13,5 @@ public class UpdateDriverDto {
 	private String userName;
 	private DriverStatus status;
 	private String location;
+	private int foodCost;
 }

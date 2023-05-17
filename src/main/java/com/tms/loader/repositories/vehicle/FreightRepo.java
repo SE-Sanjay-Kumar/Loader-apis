@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.tms.loader.entities.vehicle.Freight;
+import com.tms.loader.entities.vehicle.VehicleCost;
 import com.tms.loader.entities.vehicle.VehicleStatus;
 
 import jakarta.transaction.Transactional;
@@ -17,7 +18,7 @@ public interface FreightRepo extends JpaRepository<Freight, Long> {
 	List<Freight> findByStatusIdJoin(@Param("id") Long id);
 	@Transactional
 	@Modifying
-	@Query("update Freight set status= ?1 where vehicleId = ?2")
-	int updateFreightById( VehicleStatus status, Long id);
+	@Query("update Freight set status= ?1,cost=?2  where vehicleId = ?3")
+	int updateFreightById( VehicleStatus status,VehicleCost cost, Long id);
 
 }

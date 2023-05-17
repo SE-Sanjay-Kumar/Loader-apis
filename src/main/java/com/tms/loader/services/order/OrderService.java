@@ -17,6 +17,7 @@ import com.tms.loader.entities.order.OrderLocation;
 import com.tms.loader.entities.order.OrderSchedule;
 import com.tms.loader.entities.order.OrderStatus;
 import com.tms.loader.entities.payment.Payment;
+import com.tms.loader.entities.vehicle.VehicleCost;
 import com.tms.loader.entities.vehicle.VehicleStatus;
 import com.tms.loader.exceptions.AllExceptionHandler;
 import com.tms.loader.exceptions.ResourceNotFoundException;
@@ -159,13 +160,19 @@ order.setStatus(status);
     	
 		StatusDto  progressStatusDto = driverStatusService.getStatus(driverStatusCode);
     	DriverStatus driverStatus = mapper.map(progressStatusDto, DriverStatus.class);
-    	driverRepo.updateDriverById(driverStatus, driver.getUserName(),driver.getLocation(), driver.getId());
+    	driverRepo.updateDriverById(driverStatus, driver.getUserName(),driver.getLocation(),driver.getFoodCost(), driver.getId());
     	System.out.println("before updation of vehicle status");
     	
     	Long vid = driver.getVehicle().getVehicleId();
+    	// maintenance and fuel cost
+    	float maintenanceCost = driver.getVehicle().getCost().getMaintenanceCost();
+    	float fuelCost= driver.getVehicle().getCost().getFuelCost();
+    	VehicleCost cost = new VehicleCost();
+    	cost.setMaintenanceCost(maintenanceCost);
+    	cost.setFuelCost(fuelCost);
     	StatusDto vstatusdto =  vehicleStatusService.getStatus(vehicleStatusCode);
     	VehicleStatus vstatus = mapper.map(vstatusdto, VehicleStatus.class);
-    	freightRepo.updateFreightById(vstatus, vid);
+    	freightRepo.updateFreightById(vstatus,cost, vid);
     	System.out.println("after updation of vehicle status");
     	
 	}

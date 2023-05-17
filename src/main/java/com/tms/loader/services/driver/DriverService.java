@@ -15,6 +15,7 @@ import com.tms.loader.entities.Status;
 import com.tms.loader.entities.driver.Driver;
 import com.tms.loader.entities.driver.DriverStatus;
 import com.tms.loader.entities.vehicle.Vehicle;
+import com.tms.loader.entities.vehicle.VehicleCost;
 import com.tms.loader.entities.vehicle.VehicleStatus;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
@@ -29,6 +30,8 @@ import com.tms.loader.repositories.driver.DriverRepo;
 import com.tms.loader.repositories.driver.DriverStatusRepo;
 import com.tms.loader.repositories.vehicle.FreightRepo;
 import com.tms.loader.services.vehicle.VehicleStatusService;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class DriverService {
@@ -51,7 +54,10 @@ public class DriverService {
 			repo.save(driver);
 			StatusDto vstatus = vstatusService.getStatus(MYConstants.VEHICLE_ASSIGNED);
 			VehicleStatus status = mapper.map(vstatus, VehicleStatus.class);
-			freightRepo.updateFreightById(status, dto.getVehicle().getVehicleId());
+			VehicleCost cost= new VehicleCost();
+			cost.setMaintenanceCost(dto.getVehicle().getCost().getMaintenanceCost());
+			cost.setFuelCost( dto.getVehicle().getCost().getFuelCost());
+			freightRepo.updateFreightById(status,cost,dto.getVehicle().getVehicleId());
 		}catch (ConstraintViolationException e) {
 			throw new ConstraintViolationExceptionHandler(dto.getUserName());
 		}catch(DataIntegrityViolationException e) {
@@ -102,13 +108,14 @@ public class DriverService {
 return driverWithVehicleDto;
 	}
 	// for update of driver data
+	@Transactional
 	public DriverDto updateDriver(UpdateDriverDto updateDriverDto, Long id) {
 		System.out.println("data: "+updateDriverDto.getUserName()+updateDriverDto.getStatus());
 		Optional<Driver> optionalDriver = repo.findById(id);
 		if (optionalDriver.isPresent()) {
 			try {
 				System.out.println("I am here");
-				repo.updateDriverById(updateDriverDto.getStatus(),updateDriverDto.getUserName() ,updateDriverDto.getLocation(), id);
+				repo.updateDriverById(updateDriverDto.getStatus(),updateDriverDto.getUserName() ,updateDriverDto.getLocation(),updateDriverDto.getFoodCost(), id);
 				Driver updatedDriver = repo.findById(id).orElseThrow(
 						
 						()->  new ResourceNotFoundException("Driver","id", id));

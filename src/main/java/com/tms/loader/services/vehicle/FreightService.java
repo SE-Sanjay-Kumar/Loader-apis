@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.tms.loader.configs.ModelMapperConfig;
 import com.tms.loader.entities.vehicle.Freight;
+import com.tms.loader.entities.vehicle.VehicleCost;
 import com.tms.loader.entities.vehicle.VehicleType;
 import com.tms.loader.exceptions.ConstraintViolationExceptionHandler;
 import com.tms.loader.exceptions.DataIntegrityExceptionHandler;
@@ -71,8 +72,10 @@ public class FreightService {
 		return true;
 	}
 	public FreightDto updateFreight(UpdateFreightDto orderDto, Long id) {
-		
-		repo.updateFreightById(orderDto.getStatus(), id);
+		VehicleCost cost = new VehicleCost();
+		cost.setMaintenanceCost(orderDto.getMaintenanceCost());
+		cost.setFuelCost(orderDto.getFuelCost());
+		repo.updateFreightById(orderDto.getStatus(),cost, id);
 		Freight updatedFreight = repo.findById(id).orElseThrow(()->  new ResourceNotFoundException("Freight","id", id));
 		return mapper.map(updatedFreight, FreightDto.class);
 		

@@ -8,5 +8,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UpdateFreightDto {
+	private float maintenanceCost;
+	private float fuelCost;
 	private VehicleStatus status;
 }
